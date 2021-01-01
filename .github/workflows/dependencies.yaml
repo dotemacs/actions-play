@@ -19,7 +19,7 @@ jobs:
       - name: check for outdated dependencies
         id: dep_step
         run: |
-          echo -en "---\ntitle: Outdated dependencies\n---\nIt appears that you have out of date dependencies:\n```clojure\n" > outdated.md
+          echo -en "```clojure\n" > outdated.md
           clojure -M:outdated | tee -a outdated.md
           echo -en "\n```" > outdated.md
           if [ $(grep -c ':mvn/version' outdated.md) -gt 0 ]; then exit 1; fi
