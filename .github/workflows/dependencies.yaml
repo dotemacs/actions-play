@@ -26,5 +26,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTDATED_DEPS: ${{ format(steps.dep_step.env.DEPS) }}
-          MORE_DEPS: $(cat outdated.txt)
+          MORE_DEPS: ${{ steps.dep_step.outputs.text }}
         if: failure()
