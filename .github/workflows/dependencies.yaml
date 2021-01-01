@@ -20,8 +20,9 @@ jobs:
         run: |
           clojure -M:outdated | tee outdated.txt
           if [ $(grep -c ':mvn/version' outdated.txt) -gt 0 ]; then exit 1; fi
+          echo "::set-env name={DEPS}::$(cat outdated.txt)"
       - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OUTDATED_DEPS: ${{ $(cat outdated.txt) }}
+          OUTDATED_DEPS: ${{ env.DEPS }}
         if: failure()
