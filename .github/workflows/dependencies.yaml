@@ -2,7 +2,7 @@ name: Continuous Integration
 on: [push, pull_request]
 jobs:
   ci:
-    name: Linting and tests
+    name: Dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-java@v1
