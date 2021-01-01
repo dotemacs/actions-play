@@ -19,10 +19,10 @@ jobs:
       - name: check for outdated dependencies
         id: dep_step
         run: |
-          echo -na "Outdated dependencies: \n" >> outdated.md
-          echo -na "```clojure" >> outdated.md
+          echo -na 'Outdated dependencies: \n' >> outdated.md
+          echo -na '```clojure' >> outdated.md
           clojure -M:outdated >> outdated.md
-          echo "```" >> outdated.md
+          echo '```' >> outdated.md
           if [ $(grep -c ':mvn/version' outdated.md) -gt 0 ]; then exit 1; fi
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v2
