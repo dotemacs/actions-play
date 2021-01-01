@@ -17,14 +17,17 @@ jobs:
         with:
           cli: '1.10.1.763'
       - name: check for outdated dependencies
+        id: dep_step
         run: |
           clojure -M:outdated | tee outdated.txt
           if [ $(grep -c ':mvn/version' outdated.txt) -gt 0 ]; then exit 1; fi
           echo ::set-env name={DEPS}::$(cat outdated.txt)
-        id: dep_step
+      - name: date
+        id: date
+        run: date
       - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTDATED_DEPS: ${{ format(steps.dep_step.env.DEPS) }}
-          MORE_DEPS: ${{ steps.dep_step.outputs.text }}
+          MORE_DEPS: ${{ steps.date.outputs.text }}
         if: failure()
