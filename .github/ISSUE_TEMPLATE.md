@@ -13,3 +13,5 @@ It appears that you have out of date dependencies @{{ payload.sender.login }}:
 
 
 {{ env.MORE_DEPS }}
+
+Env var: {{ env.FOO }}
