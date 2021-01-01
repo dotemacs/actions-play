@@ -23,5 +23,5 @@ jobs:
       - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OUTDATED_DEPS: $(cat outdated.txt)
+          OUTDATED_DEPS: ${{ $(cat outdated.txt) }}
         if: failure()
