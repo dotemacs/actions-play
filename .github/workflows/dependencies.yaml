@@ -16,10 +16,13 @@ jobs:
         uses: DeLaGuardo/setup-clojure@master
         with:
           cli: '1.10.1.763'
-      - run: |
+      - name: check for outdated dependencies
+        run: |
           clojure -M:outdated | tee outdated.txt
           if [ $(grep -c ':mvn/version' outdated.txt) -gt 0 ]; then exit 1; fi
+        id: outdated_deps
       - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUTDATED_DEPS: ${{ outdated_deps.outputs.* }}
         if: failure()
