@@ -29,5 +29,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OUTDATED_DEPS: ${{ format(steps.dep_step.env.DEPS) }}
-          MORE_DEPS: ${{ steps.date.outputs.text }}
+          MORE_DEPS: "${{ steps.date.outputs.text }}"
         if: failure()
