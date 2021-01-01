@@ -16,8 +16,11 @@ jobs:
         uses: DeLaGuardo/setup-clojure@master
         with:
           cli: '1.10.1.763'
-      - run:  if [ $(clojure -M:outdated | grep -c ':mvn/version') -gt 0 ]; then exit 1; fi
+      - run: clojure -M:outdated > old-deps.txt
       - uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat old-deps.txt
+          if [ $(grep -c ':mvn/version' old-deps.txt) -gt 0 ]; then exit 1; fi
         if: failure()
