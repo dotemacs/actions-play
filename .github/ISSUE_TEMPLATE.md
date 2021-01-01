@@ -1,4 +1,4 @@
 ---
-title: Someone just pushed
+title: Outdated dependencies
 ---
-Someone just pushed, oh no! Here's who did it: {{ payload.sender.login }}.
+It appears that you have out of date dependencies {{ payload.sender.login }}.
