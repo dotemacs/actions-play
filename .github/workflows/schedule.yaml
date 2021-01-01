@@ -1,0 +1,35 @@
+name: Scheduled stale deps checker
+on:
+  schedule:
+    - cron: "*/1 * * * *"
+
+jobs:
+  ci:
+    name: Scheduled deps checker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Checkout the branch
+        uses: actions/checkout@master
+        with:
+          ref: ${{ github.ref }}
+      - name: Install Clojure CLI
+        uses: DeLaGuardo/setup-clojure@master
+        with:
+          cli: '1.10.1.763'
+      - name: check for outdated dependencies
+        id: dep_step
+        run: |
+          echo 'Scheduled outdated dependency check:' >> outdated.md
+          echo '```clojure' >> outdated.md
+          clojure -M:outdated >> outdated.md
+          echo '```' >> outdated.md
+          if [ $(grep -c ':mvn/version' outdated.md) -gt 0 ]; then exit 1; fi
+      - name: Create Issue From File
+        uses: peter-evans/create-issue-from-file@v2
+        with:
+          title: Outdated dependencies
+          content-filepath: outdated.md
+        if: failure()
