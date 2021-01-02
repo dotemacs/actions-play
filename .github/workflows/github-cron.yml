@@ -1,4 +1,4 @@
-name: 
+name: GitHub cron
 
 on:
   schedule:
