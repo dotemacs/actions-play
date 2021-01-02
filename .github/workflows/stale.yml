@@ -1,0 +1,13 @@
+name: 
+
+on:
+  schedule:
+  - cron: "* * * * *"
+
+jobs:
+  all-the-time:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - run: date
