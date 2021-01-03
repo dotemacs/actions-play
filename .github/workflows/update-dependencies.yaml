@@ -2,6 +2,7 @@ name: Update dependencies
 on:
   schedule:
     - cron: "*/2 * * * *"
+  workflow_dispatch:
 
 jobs:
   dependencies:
@@ -28,3 +29,29 @@ jobs:
           body: Updating dependencies to the latest stable versions
           branch: update-dependencies
           base: master
+      - name: check for outdated dependencies
+        id: deps
+        run: |
+          echo 'Scheduled outdated dependency check:' >> outdated.md
+          echo '```clojure' >> outdated.md
+          clojure -M:outdated >> outdated.md
+          echo '```' >> outdated.md
+          if [ $(grep -c ':mvn/version' outdated.md) -gt 0 ]; then exit 1; fi
+      - if: steps.deps.outputs.data == "1"
+        name: Badge
+        uses: RubbaBoy/BYOB@v1.2.0
+        with:
+          NAME: dependencies
+          LABEL: 'dependencies'
+          STATUS: "out of date"
+          COLOR: red
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - if: steps.deps.outputs.data == "0"
+        name: Badge
+        uses: RubbaBoy/BYOB@v1.2.0
+        with:
+          NAME: dependencies
+          LABEL: 'dependencies'
+          STATUS: "up to date"
+          COLOR: green
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
