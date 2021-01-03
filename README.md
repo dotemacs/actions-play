@@ -1,3 +1,3 @@
 # README
 
-![dependencies](https://github.com/dotemacs/actions-play/workflows/dependencies/badge.svg)
+![dependencies](https://byob.yarr.is/dotemacs/actions-play/dependencies)
