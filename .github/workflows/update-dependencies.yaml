@@ -18,17 +18,6 @@ jobs:
         uses: DeLaGuardo/setup-clojure@master
         with:
           cli: '1.10.1.763'
-      - name: Update stale dependencies
-        run: |
-          clojure -M:outdated --write
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          commit-message: Updating stale dependencies
-          title: Update stale dependencies
-          body: Updating dependencies to the latest stable versions
-          branch: update-dependencies
-          base: master
       - name: check for outdated dependencies
         id: deps
         run: |
@@ -55,3 +44,14 @@ jobs:
           STATUS: "up to date"
           COLOR: green
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update stale dependencies
+        run: |
+          clojure -M:outdated --write
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          commit-message: Updating stale dependencies
+          title: Update stale dependencies
+          body: Updating dependencies to the latest stable versions
+          branch: update-dependencies
+          base: master
