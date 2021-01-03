@@ -37,7 +37,7 @@ jobs:
           clojure -M:outdated >> outdated.md
           echo '```' >> outdated.md
           if [ $(grep -c ':mvn/version' outdated.md) -gt 0 ]; then exit 1; fi
-      - if: ${{ steps.deps.outputs.data == "1" }}
+      - if: ${{ steps.deps.outputs.data == 1 }}
         name: Badge
         uses: RubbaBoy/BYOB@v1.2.0
         with:
@@ -46,7 +46,7 @@ jobs:
           STATUS: "out of date"
           COLOR: red
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - if: ${{ steps.deps.outputs.data == "0" }}
+      - if: ${{ steps.deps.outputs.data == 0 }}
         name: Badge
         uses: RubbaBoy/BYOB@v1.2.0
         with:
